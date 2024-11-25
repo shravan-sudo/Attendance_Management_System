@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Removed Students</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #68b8dd;
+        
+        }
+    </style>
+</head>
+<body>
+   <center><h2>REMOVED STUDENTS LIST</h2></center> 
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Timestamp</th>
+                <th>Student Roll</th>
+                <th>Student Name</th>
+                <th>Branch</th>
+                <th>Year</th>
+                <th>Semester</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in removed_students %}
+            <tr>
+                <td>{{ student['id'] }}</td>
+                <td>{{ student['timestamp'] }}</td>
+                <td>{{ student['Student_roll'] }}</td>
+                <td>{{ student['Student_name'] }}</td>
+                <td>{{ student['Branch'] }}</td>
+                <td>{{ student['Year'] }}</td>
+                <td>{{ student['Semester'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

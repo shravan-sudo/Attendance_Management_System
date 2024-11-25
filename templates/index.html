@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance Management System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        #header {
+            /* background-color: #4CAF50; */
+            color: black;
+            text-align: center;
+            /* padding: 20px 0;
+            margin-bottom: 10px; */
+        }
+
+        #dropdown-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #555;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        #get-matching-rows-btn,
+        #download-btn,
+        #print-btn {
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #get-matching-rows-btn:hover,
+        #download-btn:hover,
+        #print-btn:hover {
+            background-color: #45a049;
+        }
+
+        #table-container {
+            width: 90%;
+            margin: 0 auto;
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 60vh;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        #footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        img{
+    overflow-clip-margin: content-box;
+    overflow: clip;
+    width: 100%;
+}
+.top {
+    background-color: black;
+    color: blanchedalmond;
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 10px;
+}
+
+/* Header */
+header {
+    width: 100%;
+    height: auto;
+}
+
+.cn {
+    width: 100%;
+    height: auto;
+}
+
+/* Navigation */
+#content {
+    width: 100%;
+    height: 60px;
+    background-color: blue;
+    justify-items: center;
+}
+
+#hac {
+    display: flex;
+}
+
+.li {
+    padding: 16px;
+    margin: 0;
+    font-size: larger;
+    font-weight: 500;
+    color: azure;
+}
+#head {
+    color: azure;
+}
+/* Main section */
+#main {
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    height: auto;
+    justify-content: center;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="top">KAKATIYA UNIVERSITY,KU-WARANGAL</div>
+    <header><img src="{{ url_for('static', filename='images/collegename.png') }}"></header>
+    <div id="content"><ul id="hac" type="none"><li class="li"><a id="head" href="./firstpage.html"> Home</a></li><li class="li"><a id="head" href="./about.html"> About</a></li><li class="li"><a id="head" href="./contact.html"> ContactUs</a></li></ul></div>
+    <div id="header">
+        <h1>FACULTY TEACHING DIARY</h1>
+    </div>
+
+    <div id="dropdown-container">
+        <!-- Branch Dropdown -->
+        <select class="dropdown" id="dropdown-branch">
+            <option value="">Select Branch</option>
+            {% for value in branch_values %}
+            <option value="{{ value }}">{{ value }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Year/Semester Dropdown -->
+        <select class="dropdown" id="dropdown-year-semester">
+            <option value="">Select Year</option>
+            {% for value in year_semester_values %}
+            <option value="{{ value }}">{{ value }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Semester Dropdown -->
+        <select class="dropdown" id="dropdown-semester">
+            <option value="">Select Semester</option>
+            {% for value in semester_values %}
+            <option value="{{ value }}">{{ value }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Teacher Dropdown -->
+        <select class="dropdown" id="dropdown-teacher">
+            <option value="">Select Teacher</option>
+            {% for value in teacher_values %}
+            <option value="{{ value }}">{{ value }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Button to Get Matching Rows -->
+        <button id="get-matching-rows-btn">Submit</button>
+
+        <!-- Button to Download Report -->
+        <!-- <button id="download-btn">Download Report</button> -->
+
+        <!-- Button to Print Report -->
+        <button id="print-btn">Print Report</button>
+    </div>
+
+    <div id="table-container">
+        <table id="report-table"></table>
+    </div>
+
+    <!-- <div id="footer">
+        <p>&copy; 2024 Student Attendance Management System</p>
+    </div> -->
+
+    <!-- jQuery Library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- JavaScript to Handle AJAX Request -->
+    <script>
+        $(document).ready(function () {
+            // Click event handler for Get Matching Rows button
+            $('#get-matching-rows-btn').click(function () {
+                fetchMatchingRows();
+            });
+
+            // Click event handler for Download Report button
+            // $('#download-btn').click(function() {
+            //     downloadReport();
+            // });
+
+            // Click event handler for Print Report button
+            $('#print-btn').click(function () {
+                printReport();
+            });
+
+            // Function to fetch matching rows
+            function fetchMatchingRows() {
+                // Get selected values from dropdowns
+                var selectedBranch = $('#dropdown-branch').val();
+                var selectedYearSemester = $('#dropdown-year-semester').val();
+                var selectedSemester = $('#dropdown-semester').val();
+                var selectedTeacher = $('#dropdown-teacher').val();
+
+                // Send AJAX request to Flask server
+                $.ajax({
+                    url: '/get_matching_rows',
+                    type: 'POST',
+                    data: {
+                        'selected_branch': selectedBranch,
+                        'selected_year_semester': selectedYearSemester,
+                        'selected_semester': selectedSemester,
+                        'selected_teacher': selectedTeacher
+                    },
+                    success: function (response) {
+                        var matchingRows = response['matching_rows'];
+                        var columnNames = response['column_names'];
+                        var rowDetailsHtml = '<h3>Matching Rows</h3>';
+                        if (matchingRows.length > 0) {
+                            rowDetailsHtml += '<table>';
+                            // Construct table header
+                            rowDetailsHtml += '<tr>';
+                            $.each(columnNames, function (index, columnName) {
+                                rowDetailsHtml += '<th>' + columnName + '</th>';
+                            });
+                            rowDetailsHtml += '</tr>';
+                            // Construct table rows
+                            $.each(matchingRows, function (index, row) {
+                                rowDetailsHtml += '<tr>';
+                                $.each(columnNames, function (index, columnName) {
+                                    rowDetailsHtml += '<td>' + row[columnName] + '</td>';
+                                });
+                                rowDetailsHtml += '</tr>';
+                            });
+                            rowDetailsHtml += '</table>';
+                        } else {
+                            rowDetailsHtml += '<p>No matching rows found</p>';
+                        }
+                        $('#report-table').html(rowDetailsHtml);
+                    }
+
+                });
+            }
+
+            // Function to download report
+            function downloadReport() {
+                // Assuming you have a function in your backend to generate and return the report as a file
+                // You can send necessary parameters for report generation via AJAX
+                // Here, for simplicity, we're just sending a request to get a sample report
+                $.ajax({
+                    url: '/download_report',
+                    type: 'GET',
+                    success: function (response) {
+                        // Handle the response to trigger file download
+                        // For example, you can use Blob and saveAs to trigger download
+                        // For demonstration purposes, let's assume the response is a blob
+                        var blob = new Blob([response], { type: 'application/pdf' });
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = 'report.pdf';
+                        link.click();
+                    }
+                });
+            }
+
+            // Function to print report
+            function printReport() {
+                window.print();
+            }
+        });
+    </script>
+</body>
+
+</html>

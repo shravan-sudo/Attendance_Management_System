@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Removed Faculty</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #6399d0;
+        }
+    </style>
+</head>
+<body>
+   <center> <h2>REMOVED FACULTY LIST</h2></center>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Timestamp</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for faculty in removed_faculty %}
+            <tr>
+                <td>{{ faculty['id'] }}</td>
+                <td>{{ faculty['timestamp'] }}</td>
+                <td>{{ faculty['username'] }}</td>
+                <td>{{ faculty['password'] }}</td>
+                <td>{{ faculty['role'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FACULTYLOGIN</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='FacultyLogin.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="top">KAKATIYA UNIVERSITY,KU-WARANGAL</div>
+    <header><img src="{{ url_for('static', filename='images/collegename.png') }}"></header>
+    <div id="content"><ul id="hac" type="none"><li class="li"><a id="head" href="./firstpage.html"> Home</a></li><li class="li"><a id="head" href="./about.html"> About</a></li><li class="li"><a id="head" href="./contact.html"> ContactUs</a></li></ul></div>
+    <section id="main">
+        <div id="admin">
+            <h2 class="ad">FACULTY LOGIN</h2>
+            <div id="login">
+                <form action="/authenticateAdmin" method="post">
+                    <label for="email">Username:</label><br>
+                    <input type="text" name="username"  id="email"><br><br>
+                    <label for="password">Password:</label><br>
+                    <input type="text" name="password"id="password"><br><br>
+                    <button type="submit"name="submit" value="submit">LOGIN</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p id="copy">Copyrights © 2023 All Rights Reserved.KUCE&T.<br><span class="follow">&nbsp;&nbsp;<a id="color" href="http://kucet.ac.in/">google</a> &nbsp; |&nbsp;&nbsp;<a id="color" href="https://www.facebook.com/kucet.warangal" >facebook</a>  &nbsp;&nbsp;|&nbsp;&nbsp;<a id="color" href="https://twitter.com/KucetW"> X </a> &nbsp;&nbsp;|&nbsp;&nbsp;<a id="color" href="https://www.google.com/maps/place/KU+College+Of+Engineering+And+Technology/@18.0343755,79.5619291,17z/data=!4m14!1m7!3m6!1s0x3a3345f635da0d9b:0x7ffca009fb4a5625!2sKU+College+Of+Engineering+And+Technology!8m2!3d18.0343755!4d79.5619291!16s%2Fg%2F11b6hwz9dd!3m5!1s0x3a3345f635da0d9b:0x7ffca009fb4a5625!8m2!3d18.0343755!4d79.5619291!16s%2Fg%2F11b6hwz9dd?entry=ttu">maps</a> &nbsp;&nbsp;</span></p>
+    </footer>
+</body>
+</html>

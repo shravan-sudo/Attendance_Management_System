@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students List</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #72a8eb;
+        }
+    </style>
+</head>
+<body>
+   <center><h2>STUDENTS LIST</h2></center> 
+   <label for="branch">Branch:</label>
+<select name="branch" id="branch">
+    <option value="">All</option>
+    <option value="CSE">CSE</option>
+    <option value="IT">IT</option>
+    <option value="ECE">ECE</option>
+    <option value="EEE">EEE</option>
+    <option value="Civil">Civil</option>
+    <option value="Mech">Mech</option>
+    <option value="Data Science">CSD</option>
+</select>
+
+<label for="year">Year:</label>
+<select name="year" id="year">
+    <option value="">All</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+</select>
+
+<button onclick="refresh()">Refresh</button>
+
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Timestamp</th>
+                <th>Student Roll</th>
+                <th>Student Name</th>
+                <th>Branch</th>
+                <th>Year</th>
+                <th>Semester</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student['id'] }}</td>
+                <td>{{ student['timestamp'] }}</td>
+                <td>{{ student['Student_roll'] }}</td>
+                <td>{{ student['Student_name'] }}</td>
+                <td>{{ student['Branch'] }}</td>
+                <td>{{ student['Year'] }}</td>
+                <td>{{ student['Semester'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        document.getElementById('branch').addEventListener('change', filterStudents);
+        document.getElementById('year').addEventListener('change', filterStudents);
+
+        function filterStudents() {
+            var branch = document.getElementById('branch').value;
+            var year = document.getElementById('year').value;
+            var rows = document.getElementById('studentTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var rowBranch = rows[i].getElementsByTagName('td')[4].textContent;
+                var rowYear = rows[i].getElementsByTagName('td')[5].textContent;
+
+                if ((branch === '' || rowBranch === branch) && (year === '' || rowYear === year)) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+
+        function refresh() {
+            document.getElementById('branch').value = '';
+            document.getElementById('year').value = '';
+            var rows = document.getElementById('studentTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            for (var i = 0; i < rows.length; i++) {
+                rows[i].style.display = '';
+            }
+        }
+    </script>
+</body>
+</html>

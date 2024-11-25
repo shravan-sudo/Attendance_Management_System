@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #bde3ea;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px 12px;
+            text-align: left;
+            white-space: nowrap; /* Prevent text wrapping */
+            overflow: hidden; /* Prevent overflow */
+            text-overflow: ellipsis; /* Show ellipsis if content overflows */
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* tr:nth-child(even) {
+            background-color: #f2f2f2;
+        } */
+
+        /* tr:hover {
+            background-color: #ddd;
+        } */
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        .low-percentage {
+            background-color:rgb(240, 168, 168); /* Light red */
+        }
+
+    </style>
+</head>
+<body>
+
+<center><h2>Class Attendance Information</h2>
+<b>Year: {{ year }}</b><br>
+<b>Branch: {{ branch }}</b><br>
+<b>Semester: {{ semester }}</b><br>
+<b>Class Type: {{ classtype }}</b></center>
+
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Student RollNo</th>
+            <th>Student Name</th>
+            {% for subject in subjectsss %}
+                <th>{{ subject }}</th>
+            {% endfor %}
+            <th>Total Attended Classes</th>
+            <th>Total Conducted Classes</th>
+            <th>Percentage</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for roll_number in roll_numbers %}
+        {% set index = loop.index0 %}
+        {% set percentage = (tarr[index]/tt)*100 %}
+       
+        <tr {% if percentage <= 50 %} class="low-percentage" {% endif %}>
+            <td>{{ roll_number }}</td>
+            <td>{{ names[index] }}</td>
+            {% for subject in subjectsss %}
+                <td>{{ attendance_data[roll_number][subject] if roll_number in attendance_data and subject in attendance_data[roll_number] else 0 }}</td>
+            {% endfor %}
+            <td>{{ tarr[index] }}</td>
+            <td>{{ tt }}</td>
+            <td>{{ percentage }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div>
+    <h3>Note:</h3>
+    <p>The following table contains total classes of each subject</p>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Subject Name</th>
+                <th>Total Classes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subject, total_classes in subjectsss|zip(to) %}
+                <tr>
+                    <td>{{ subject }}</td>
+                    <td>{{ total_classes }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td><b>Total Classes</b></td>
+                <td><b><h3>{{tt}}</h3></b></td>
+            </tr>
+        </tbody>
+    </table>
+</div><br>
+<center><button id="print-btn">Print Report</button></center>
+<script>
+    // JavaScript code to handle printing
+    document.getElementById('print-btn').addEventListener('click', function() {
+        window.print();
+    });
+</script>
+
+</script>
+
+</body>
+</html>

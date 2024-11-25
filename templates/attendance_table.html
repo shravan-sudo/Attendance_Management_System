@@ -1,0 +1,95 @@
+<!-- templates/attendance_table.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #9ab4b9;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #569dcc;
+        }
+
+        /* tr:nth-child(even) {
+            background-color: #f9f9f9;
+        } */
+
+        p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+   <center> <h1>Attendance Table</h1>
+
+    <h2>Student Information</h2>
+    <p><B>Student Roll:</B> {{ student.Student_roll }}</p>
+    <p><b>Student name:</b> {{ student.Student_name }}</p>
+    <p><b>Year:</b> {{ student.year }}</p>
+    <p><b>Branch:</b> {{ student.branch }}</p>
+    <p><b>Semester: </b>{{ student.semester }}</p>
+    <p><b>Class Type:</b> {{ student.classtype }}</p>
+    </center>
+
+    <!-- <h2>Filtered Subjects and Counts</h2> -->
+    <table>
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Total</th>
+                <th>Attended</th>
+                <th>Percentage</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subject in subjects %}
+                <tr>
+                    <td>{{ subject }}</td>
+                    <td>{{ each_subject_counts[subject] }}</td>
+                    <td>{{ subject_counts[subject] }}</td>
+                    <td>{{ (subject_counts[subject] / each_subject_counts[subject]) * 100 }}%</td>
+                </tr>
+            {% endfor %}
+
+            <!-- Add a row for total classes, attended classes, and total percentage -->
+            <tr>
+                <td><b>Total</b></td>
+                <td><b>{{ total_classes }}</b></td>
+                <td><b>{{ attended_classes }}</b></td>
+                <td><b>{{ (attended_classes / total_classes) * 100 }}%</b></td>
+            </tr>
+        </tbody>
+    </table><br>
+    <center><button id="print-btn">Print Report</button></center>
+    <script>
+        // JavaScript code to handle printing
+        document.getElementById('print-btn').addEventListener('click', function() {
+            window.print();
+        });
+    </script>
+    
+</body>
+</html>
